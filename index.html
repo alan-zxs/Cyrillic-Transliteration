@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#07111f" />
+  <title>Cyrillic Romanizer</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --bg-2:#eaf0f9;
+      --panel:rgba(255,255,255,.82);
+      --panel-solid:#ffffff;
+      --text:#0f172a;
+      --muted:#64748b;
+      --border:#d8e0eb;
+      --accent:#6d28d9;
+      --accent-2:#0ea5e9;
+      --accent-3:#16a34a;
+      --warn:#b45309;
+      --danger:#dc2626;
+      --shadow:0 16px 40px rgba(15,23,42,.08);
+      --radius:24px;
+    }
+    html[data-theme="dark"]{
+      --bg:#07111f;
+      --bg-2:#0b1528;
+      --panel:rgba(15,23,42,.84);
+      --panel-solid:#0f172a;
+      --text:#e5e7eb;
+      --muted:#94a3b8;
+      --border:#223044;
+      --accent:#8b5cf6;
+      --accent-2:#38bdf8;
+      --accent-3:#22c55e;
+      --warn:#f59e0b;
+      --danger:#ef4444;
+      --shadow:0 20px 60px rgba(0,0,0,.30);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(139,92,246,.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(56,189,248,.12), transparent 26%),
+        linear-gradient(180deg,var(--bg) 0%, var(--bg-2) 100%);
+      padding:22px;
+    }
+    .wrap{
+      width:min(1240px,100%);
+      margin:0 auto;
+      display:grid;
+      gap:18px;
+    }
+    .hero,.card{
+      background:var(--panel);
+      border:1px solid var(--border);
+      box-shadow:var(--shadow);
+      border-radius:var(--radius);
+      backdrop-filter:blur(14px);
+    }
+    .hero{
+      padding:28px;
+      display:grid;
+      gap:14px;
+    }
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      width:max-content;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(139,92,246,.12);
+      color:var(--accent);
+      border:1px solid rgba(139,92,246,.25);
+      font-size:.82rem;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      font-weight:700;
+    }
+    h1{
+      margin:0;
+      font-size:clamp(2rem,4vw,3.6rem);
+      line-height:1.02;
+      letter-spacing:-.05em;
+    }
+    .subtitle{
+      margin:0;
+      max-width:80ch;
+      color:var(--muted);
+      line-height:1.65;
+      font-size:1.02rem;
+    }
+    .topbar{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .group{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
+    .chip, .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+      font-size:.86rem;
+      line-height:1;
+      white-space:nowrap;
+    }
+    .chip strong, .badge strong{font-weight:700}
+    .badge.purple{background:rgba(139,92,246,.12);border-color:rgba(139,92,246,.24)}
+    .badge.blue{background:rgba(56,189,248,.12);border-color:rgba(56,189,248,.24)}
+    .badge.green{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.24)}
+    .badge.orange{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.25)}
+    .badge.red{background:rgba(239,68,68,.10);border-color:rgba(239,68,68,.24)}
+    .tabs{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+    .tabs button{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      color:var(--text);
+      box-shadow:none;
+      border-radius:14px;
+      padding:11px 14px;
+      min-width:120px;
+    }
+    .tabs button.active{
+      background:linear-gradient(135deg,var(--accent),#5b21b6);
+      color:#fff;
+      border-color:transparent;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:18px;
+    }
+    .card{
+      padding:20px;
+      display:grid;
+      gap:14px;
+      align-content:start;
+    }
+    .header-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      justify-content:space-between;
+      align-items:end;
+    }
+    .stack{
+      display:grid;
+      gap:8px;
+      min-width:min(100%,320px);
+    }
+    .label{
+      font-size:.9rem;
+      font-weight:700;
+      letter-spacing:.02em;
+      color:var(--text);
+    }
+    .hint{
+      font-size:.85rem;
+      color:var(--muted);
+      line-height:1.45;
+    }
+    select,textarea,button,input{
+      font:inherit;
+    }
+    select,textarea,input,.output,.panel{
+      width:100%;
+      border:1px solid var(--border);
+      background:var(--panel-solid);
+      color:var(--text);
+      border-radius:18px;
+      outline:none;
+      transition:border-color .15s ease, box-shadow .15s ease, transform .15s ease, background .15s ease;
+    }
+    html[data-theme="dark"] select,
+    html[data-theme="dark"] textarea,
+    html[data-theme="dark"] input,
+    html[data-theme="dark"] .output,
+    html[data-theme="dark"] .panel{
+      background:#0b1220;
+    }
+    select{
+      padding:12px 14px;
+      max-width:340px;
+    }
+    input{
+      padding:11px 13px;
+    }
+    select:focus,textarea:focus,input:focus{
+      border-color:rgba(139,92,246,.9);
+      box-shadow:0 0 0 4px rgba(139,92,246,.16);
+    }
+    textarea{
+      min-height:240px;
+      padding:16px;
+      resize:vertical;
+      line-height:1.6;
+      font-size:1rem;
+    }
+    .output{
+      min-height:240px;
+      padding:16px;
+      white-space:pre-wrap;
+      word-break:break-word;
+      line-height:1.65;
+      font-size:1rem;
+    }
+    .actions,.examples,.toolbar,.row-actions,.shortcut-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .toolbar{
+      align-items:center;
+      justify-content:space-between;
+    }
+    button{
+      border:0;
+      border-radius:14px;
+      padding:11px 15px;
+      cursor:pointer;
+      transition:transform .15s ease, opacity .15s ease, box-shadow .15s ease, background .15s ease;
+      color:#fff;
+      background:linear-gradient(135deg,var(--accent),#5b21b6);
+      box-shadow:0 10px 24px rgba(139,92,246,.18);
+    }
+    button:hover{transform:translateY(-1px)}
+    button:active{transform:translateY(0)}
+    button.secondary{
+      background:rgba(15,23,42,.9);
+      color:#e5e7eb;
+      border:1px solid var(--border);
+      box-shadow:none;
+    }
+    html[data-theme="light"] button.secondary{
+      background:#eaf0f7;
+      color:#0f172a;
+    }
+    button.green{background:linear-gradient(135deg,#16a34a,var(--accent-3));box-shadow:0 10px 24px rgba(34,197,94,.15)}
+    button.blue{background:linear-gradient(135deg,#0ea5e9,var(--accent-2));box-shadow:0 10px 24px rgba(56,189,248,.16)}
+    button.orange{background:linear-gradient(135deg,#f59e0b,#d97706);box-shadow:0 10px 24px rgba(245,158,11,.16)}
+    button.danger{background:linear-gradient(135deg,#ef4444,#dc2626);box-shadow:0 10px 24px rgba(239,68,68,.14)}
+    .examples button{
+      padding:9px 13px;
+      font-size:.92rem;
+    }
+    .section-title{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      margin:0 0 2px;
+    }
+    .section-title h2{
+      margin:0;
+      font-size:1rem;
+      letter-spacing:.02em;
+    }
+    .small-note{
+      color:var(--muted);
+      font-size:.88rem;
+      line-height:1.5;
+      margin:0;
+    }
+    .breakdown{
+      padding:0;
+      overflow:hidden;
+    }
+    .breakdown-empty{
+      padding:16px;
+      color:var(--muted);
+      line-height:1.6;
+    }
+    .entry{
+      padding:14px 16px;
+      border-top:1px solid rgba(148,163,184,.22);
+      display:grid;
+      gap:10px;
+    }
+    .entry:first-child{border-top:0}
+    .entry-head{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+    }
+    .entry-title{
+      font-size:.74rem;
+      text-transform:uppercase;
+      letter-spacing:.09em;
+      color:var(--muted);
+    }
+    .entry-body{
+      display:grid;
+      gap:8px;
+    }
+    .pair{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+      gap:10px;
+      align-items:start;
+    }
+    .source,.result,.rules{
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      font-size:.94rem;
+      line-height:1.5;
+      word-break:break-word;
+    }
+    .source-title,.result-title,.rules-title{
+      display:block;
+      font-size:.73rem;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:var(--muted);
+      margin-bottom:5px;
+    }
+    .rules{
+      color:var(--muted);
+      background:rgba(148,163,184,.08);
+      border:1px solid rgba(148,163,184,.16);
+      border-radius:14px;
+      padding:10px 12px;
+    }
+    .arrow{
+      color:var(--muted);
+      padding-top:1px;
+      user-select:none;
+    }
+    .subgrid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+    .mini{
+      display:grid;
+      gap:10px;
+      align-content:start;
+    }
+    .mini h3{
+      margin:0;
+      font-size:.92rem;
+    }
+    .mini p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.5;
+      font-size:.88rem;
+    }
+    .checklist{
+      display:grid;
+      gap:8px;
+      margin:0;
+      padding:0;
+      list-style:none;
+    }
+    .checklist li{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      color:var(--text);
+      font-size:.9rem;
+      line-height:1.5;
+    }
+    .dot{
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      margin-top:.55em;
+      flex:0 0 auto;
+      background:var(--accent);
+    }
+    .footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:.9rem;
+      padding:6px 0 2px;
+    }
+    .view-toggle{
+      display:inline-flex;
+      padding:4px;
+      border-radius:16px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.04);
+      gap:4px;
+    }
+    .view-toggle button{
+      box-shadow:none;
+      background:transparent;
+      color:var(--text);
+      border:0;
+      padding:9px 12px;
+      border-radius:12px;
+      min-width:104px;
+    }
+    .view-toggle button.active{
+      background:linear-gradient(135deg,var(--accent),#5b21b6);
+      color:#fff;
+    }
+    .segment-line{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .seg{
+      padding:2px 8px;
+      border-radius:999px;
+      background:rgba(148,163,184,.12);
+      border:1px solid rgba(148,163,184,.16);
+      font-size:.83rem;
+      color:var(--text);
+    }
+    .warning{
+      color:var(--warn);
+    }
+    .hidden{display:none !important}
+    .tab-panel{
+      display:none;
+    }
+    .tab-panel.active{
+      display:block;
+    }
+    .table-wrap{
+      overflow:hidden;
+      border:1px solid var(--border);
+      border-radius:18px;
+      background:rgba(255,255,255,.03);
+    }
+    table{
+      width:100%;
+      border-collapse:collapse;
+      table-layout:fixed;
+    }
+    th,td{
+      padding:10px 12px;
+      border-bottom:1px solid rgba(148,163,184,.16);
+      vertical-align:top;
+      text-align:left;
+      font-size:.9rem;
+      overflow-wrap:anywhere;
+      word-break:break-word;
+      white-space:normal;
+    }
+    th{
+      position:sticky;
+      top:0;
+      background:rgba(15,23,42,.92);
+      z-index:1;
+    }
+    html[data-theme="light"] th{
+      background:rgba(255,255,255,.95);
+    }
+    .muted{
+      color:var(--muted);
+    }
+    .grid-2{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+    .rule-editor{
+      display:grid;
+      gap:12px;
+    }
+    .rule-row{
+      display:grid;
+      grid-template-columns:90px 1fr 1fr 110px 44px 44px 44px;
+      gap:8px;
+      align-items:center;
+    }
+    .rule-row input[type="checkbox"]{
+      width:20px;
+      height:20px;
+      justify-self:center;
+    }
+    .rule-row button{
+      padding:10px 0;
+      min-width:44px;
+      border-radius:12px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:7px 11px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(148,163,184,.08);
+      font-size:.84rem;
+      white-space:nowrap;
+    }
+    .test-pass{color:var(--accent-3);font-weight:700}
+    .test-fail{color:var(--danger);font-weight:700}
+    .print-sheet{
+      display:grid;
+      gap:18px;
+    }
+    .reference-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+    .reference-grid .card{padding:16px}
+    .shortcut-list{
+      display:grid;
+      gap:10px;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+    .shortcut-item{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      border-radius:14px;
+      background:rgba(148,163,184,.06);
+      font-size:.9rem;
+    }
+    .kbd{
+      font-family:ui-monospace,monospace;
+      padding:2px 7px;
+      border-radius:8px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      white-space:nowrap;
+    }
+    .profile-bar{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .profile-bar select{max-width:220px}
+    .batch-note{
+      color:var(--muted);
+      font-size:.88rem;
+      line-height:1.45;
+    }
+    .mode-strip{
+      padding:18px 20px;
+      display:grid;
+      gap:12px;
+    }
+    .section-spacer{height:4px}
+    @media (max-width: 1040px){
+      .grid,.grid-2,.reference-grid,.subgrid,.shortcut-list{grid-template-columns:1fr}
+      .rule-row{grid-template-columns:1fr 1fr}
+      .rule-row .dir,.rule-row .toggle,.rule-row .up,.rule-row .down,.rule-row .del{grid-column:auto}
+    }
+    @media (max-width: 680px){
+      body{padding:14px}
+      .hero,.card{padding:16px}
+      textarea,.output{min-height:190px}
+      .pair{grid-template-columns:1fr}
+      .arrow{display:none}
+      .toolbar{align-items:flex-start}
+      .view-toggle{width:100%}
+      .view-toggle button{flex:1}
+      .tabs button{min-width:0;flex:1}
+      table{min-width:620px}
+      .rule-row{grid-template-columns:1fr}
+      .rule-row button{width:100%}
+    }
+    @media print{
+      body{background:#fff !important; padding:0 !important}
+      .hero,.tabs,.topbar .group:first-child,.grid,.card:not(#reference-panel), .footer{display:none !important}
+      #reference-panel{display:block !important; box-shadow:none !important; border:0 !important; background:#fff !important; color:#000 !important}
+      .reference-grid .card{break-inside:avoid}
+      .table-wrap{border:1px solid #888}
+      th{background:#f2f2f2 !important; color:#000 !important}
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <div class="topbar">
+        <div class="eyebrow">Static GitHub Pages app</div>
+        <div class="group">
+          <button id="themeBtn" type="button" class="secondary">Theme: Dark</button>
+          <div class="view-toggle" role="tablist" aria-label="Batch mode">
+            <button id="singleViewBtn" type="button" class="active" aria-pressed="true">Single text</button>
+            <button id="batchViewBtn" type="button" aria-pressed="false">Batch lines</button>
+          </div>
+        </div>
+      </div>
+      <h1>Cyrillic Romanizer</h1>
+      <p class="subtitle">Paste Russian or Ukrainian text and get a romanized result instantly. The page includes reverse transliteration, custom rules, priority control, presets, batch processing, tests, a printable reference sheet, mixed-script warnings, and a shareable URL that remembers the current state.</p>
+      <div class="tabs" role="tablist" aria-label="Sections">
+        <button type="button" class="active" data-tab="romanizer">Romanizer</button>
+        <button type="button" data-tab="reverse">Reverse</button>
+        <button type="button" data-tab="rules">Rules</button>
+        <button type="button" data-tab="tests">Tests</button>
+        <button type="button" data-tab="reference">Reference</button>
+      </div>
+      <div class="profile-bar">
+        <span class="pill">Profile</span>
+        <select id="profileSelect" aria-label="Profile">
+          <option value="text">Text</option>
+          <option value="names">Names</option>
+        </select>
+        <span class="pill">Shortcuts</span>
+        <span class="muted">Ctrl+Enter copy, Ctrl+Shift+C copy, Ctrl+Shift+L link, Esc clear, Alt+1..5 tabs</span>
+      </div>
+    </section>
+
+    <section id="romanizer-panel" class="tab-panel active">
+      <section class="card mode-strip">
+        <div class="section-title">
+          <h2>Romanization mode</h2>
+          <span class="badge">Auto-detect defaults to Russian</span>
+        </div>
+        <p class="small-note">Auto-detect uses Ukrainian-specific letters when they appear, otherwise it defaults to Russian.</p>
+        <select id="forwardMode" aria-label="Romanization mode">
+          <option value="auto">Auto-detect</option>
+          <option value="ru">Russian</option>
+          <option value="ua">Ukrainian</option>
+        </select>
+      </section>
+      <section class="grid">
+        <div class="card">
+          <div class="stack">
+            <label class="label" for="forwardInput">Input text</label>
+            <textarea id="forwardInput" placeholder="Type or paste Cyrillic text here"></textarea>
+          </div>
+          <div class="meta">
+            <span id="forwardDetected" class="badge purple"><strong>Detected:</strong> Auto</span>
+            <span id="forwardActive" class="badge blue"><strong>Active:</strong> Auto</span>
+            <span id="forwardChars" class="badge green"><strong>Characters:</strong> 0</span>
+            <span id="forwardLines" class="badge"><strong>Lines:</strong> 0</span>
+            <span id="forwardScript" class="badge"><strong>Script:</strong> Ready</span>
+          </div>
+          <div id="forwardExamples" class="examples"></div>
+          <div class="actions">
+            <button type="button" id="forwardPasteBtn" class="secondary">Paste</button>
+            <button type="button" id="forwardCopyBtn">Copy output</button>
+            <button type="button" id="forwardCopyPairsBtn" class="blue">Copy pairs</button>
+            <button type="button" id="forwardDownloadBtn" class="orange">Download text</button>
+            <button type="button" id="forwardLinkBtn" class="secondary">Copy link</button>
+            <button type="button" id="forwardClearBtn" class="green">Clear</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-title">
+            <h2>Output</h2>
+            <span class="badge"><strong>Mode:</strong> Romanized</span>
+          </div>
+          <div id="forwardOutput" class="output" aria-live="polite"></div>
+          <p id="forwardNote" class="small-note">The output keeps punctuation, spaces, and line breaks. Copy pairs exports one line per input line as input → output.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Word and line breakdown</h2>
+          <span class="badge"><strong>Preview:</strong> Source to result</span>
+        </div>
+        <div id="forwardBreakdown" class="breakdown">
+          <div class="breakdown-empty">Breakdown will appear here after you enter text.</div>
+        </div>
+      </section>
+    </section>
+
+    <section id="reverse-panel" class="tab-panel">
+      <section class="card mode-strip">
+        <div class="section-title">
+          <h2>Reverse mode</h2>
+          <span class="badge">Best effort on Latin input</span>
+        </div>
+        <p class="small-note">Reverse transliteration is best-effort and works best on text generated by this page.</p>
+        <select id="reverseMode" aria-label="Reverse mode">
+          <option value="auto">Auto-detect</option>
+          <option value="ru">Russian</option>
+          <option value="ua">Ukrainian</option>
+        </select>
+      </section>
+      <section class="grid">
+        <div class="card">
+          <div class="stack">
+            <label class="label" for="reverseInput">Input text</label>
+            <textarea id="reverseInput" placeholder="Type or paste Latin text here"></textarea>
+          </div>
+          <div class="meta">
+            <span id="reverseDetected" class="badge purple"><strong>Detected:</strong> Auto</span>
+            <span id="reverseActive" class="badge blue"><strong>Active:</strong> Auto</span>
+            <span id="reverseChars" class="badge green"><strong>Characters:</strong> 0</span>
+            <span id="reverseLines" class="badge"><strong>Lines:</strong> 0</span>
+            <span id="reverseScript" class="badge"><strong>Script:</strong> Ready</span>
+          </div>
+          <div id="reverseExamples" class="examples"></div>
+          <div class="actions">
+            <button type="button" id="reversePasteBtn" class="secondary">Paste</button>
+            <button type="button" id="reverseCopyBtn">Copy output</button>
+            <button type="button" id="reverseCopyPairsBtn" class="blue">Copy pairs</button>
+            <button type="button" id="reverseDownloadBtn" class="orange">Download text</button>
+            <button type="button" id="reverseLinkBtn" class="secondary">Copy link</button>
+            <button type="button" id="reverseClearBtn" class="green">Clear</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-title">
+            <h2>Output</h2>
+            <span class="badge"><strong>Mode:</strong> Cyrillic</span>
+          </div>
+          <div id="reverseOutput" class="output" aria-live="polite"></div>
+          <p id="reverseNote" class="small-note">The output keeps punctuation, spaces, and line breaks. The reverse mapping is approximate for ambiguous Latin sequences.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-title">
+          <h2>Word and line breakdown</h2>
+          <span class="badge"><strong>Preview:</strong> Source to result</span>
+        </div>
+        <div id="reverseBreakdown" class="breakdown">
+          <div class="breakdown-empty">Breakdown will appear here after you enter text.</div>
+        </div>
+      </section>
+    </section>
+
+    <section id="rules-panel" class="tab-panel">
+      <section class="grid-2">
+        <div class="card">
+          <div class="section-title">
+            <h2>Custom rule editor</h2>
+            <span class="badge"><strong>Stored:</strong> Local only</span>
+          </div>
+          <div class="rule-editor" id="ruleEditor"></div>
+          <div class="actions">
+            <button type="button" id="addRuleBtn" class="blue">Add rule</button>
+            <button type="button" id="saveRulesBtn">Save rules</button>
+            <button type="button" id="resetRulesBtn" class="danger">Reset defaults</button>
+          </div>
+          <p class="small-note">Forward rules are applied before romanization. Reverse rules are applied before Cyrillic reconstruction. Order matters and can be changed with the arrow buttons.</p>
+        </div>
+
+        <div class="card">
+          <div class="section-title">
+            <h2>Rule priority view</h2>
+            <span class="badge"><strong>Order:</strong> Top first</span>
+          </div>
+          <div id="priorityView" class="panel" style="padding:14px; display:grid; gap:10px;"></div>
+          <div class="section-spacer"></div>
+          <div class="section-title">
+            <h2>Keyboard-first UX</h2>
+            <span class="badge"><strong>Built in</strong></span>
+          </div>
+          <div class="shortcut-list">
+            <div class="shortcut-item"><span>Copy output</span><span class="kbd">Ctrl+Enter</span></div>
+            <div class="shortcut-item"><span>Copy output fast</span><span class="kbd">Ctrl+Shift+C</span></div>
+            <div class="shortcut-item"><span>Copy link</span><span class="kbd">Ctrl+Shift+L</span></div>
+            <div class="shortcut-item"><span>Clear active input</span><span class="kbd">Esc</span></div>
+            <div class="shortcut-item"><span>Romanizer tab</span><span class="kbd">Alt+1</span></div>
+            <div class="shortcut-item"><span>Reference tab</span><span class="kbd">Alt+5</span></div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section id="tests-panel" class="tab-panel">
+      <section class="card">
+        <div class="section-title">
+          <h2>Test suite</h2>
+          <span class="badge"><strong>Current rules:</strong> Active</span>
+        </div>
+        <div class="actions">
+          <button type="button" id="runTestsBtn" class="blue">Run tests</button>
+        </div>
+        <div id="testsResult" class="table-wrap"></div>
+      </section>
+    </section>
+
+    <section id="reference-panel" class="tab-panel">
+      <section class="print-sheet">
+        <div class="card">
+          <div class="section-title">
+            <h2>Printable reference sheet</h2>
+            <span class="badge"><strong>Print-ready</strong></span>
+          </div>
+          <p class="small-note">This sheet is designed to print cleanly from the browser. It also works as a quick on-page reference.</p>
+          <div class="actions">
+            <button type="button" id="printReferenceBtn" class="blue">Print reference sheet</button>
+          </div>
+        </div>
+        <div class="reference-grid">
+          <div class="card">
+            <div class="section-title">
+              <h2>Russian reference</h2>
+              <span class="badge">Forward and reverse notes</span>
+            </div>
+            <div id="ruReference" class="table-wrap"></div>
+          </div>
+          <div class="card">
+            <div class="section-title">
+              <h2>Ukrainian reference</h2>
+              <span class="badge">Forward and reverse notes</span>
+            </div>
+            <div id="uaReference" class="table-wrap"></div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <div class="footer">Built as a single static app for GitHub Pages, with offline support and editable rules.</div>
+  </main>
+  <script src="app.js"></script>
+  <script src="enhancement.js"></script>
+</body>
+</html>
