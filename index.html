@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#07111f" />
   <title>Cyrillic Romanizer</title>
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="stylesheet" href="style.css?v=7" />
+  <link rel="stylesheet" href="style.css?v=8" />
 </head>
 <body>
   <main class="wrap">
@@ -14,26 +14,27 @@
       <div class="topbar">
         <div class="eyebrow">Static GitHub Pages app</div>
         <div class="group">
+          <a class="github-link" href="https://github.com/alan-zxs/Cyrillic-Transliteration" target="_blank" rel="noopener noreferrer">GitHub</a>
           <button id="themeBtn" type="button" class="secondary">Theme: Dark</button>
         </div>
       </div>
       <h1>Cyrillic Romanizer</h1>
-      <p class="subtitle">Paste Russian or Ukrainian text and get a romanized result instantly. The page includes reverse transliteration, custom rules, priority control, presets, batch processing, tests, a printable reference sheet, mixed-script warnings, and a shareable URL that remembers the current state.</p>
+      <p class="subtitle">Paste Russian or Ukrainian text and get a romanized result instantly. The page includes reverse transliteration, custom rules, priority control, presets, batch processing, reference sheet.</p>
       <div class="tabs" role="tablist" aria-label="Sections">
         <button type="button" class="active" data-tab="romanizer">Romanizer</button>
         <button type="button" data-tab="reverse">Reverse</button>
         <button type="button" data-tab="rules">Rules</button>
         <button type="button" data-tab="reference">Reference</button>
       </div>
-      <div class="profile-bar">
-        <span class="pill">Profile</span>
-        <select id="profileSelect" aria-label="Profile">
-          <option value="text">Text</option>
-          <option value="names">Names</option>
-        </select>
-        <span class="pill">Shortcuts</span>
-        <span class="muted">Ctrl+Enter copy, Ctrl+Shift+C copy, Ctrl+Shift+L link, Esc clear, Alt+1..5 tabs</span>
-      </div>
+<div class="profile-bar hidden">
+  <span class="pill">Profile</span>
+  <select id="profileSelect" aria-label="Profile">
+    <option value="text">Text</option>
+    <option value="names">Names</option>
+  </select>
+  <span class="pill">Shortcuts</span>
+  <span class="muted">Ctrl+Enter copy, Ctrl+Shift+C copy, Ctrl+Shift+L link, Esc clear, Alt+1..5 tabs</span>
+</div>
     </section>
 
     <section id="romanizer-panel" class="tab-panel active">

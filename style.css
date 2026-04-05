@@ -115,6 +115,32 @@
       white-space:nowrap;
     }
     .chip strong, .badge strong{font-weight:700}
+
+    .github-link{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:11px 15px;
+      min-height:44px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background:rgba(15,23,42,.9);
+      color:#e5e7eb;
+      text-decoration:none;
+      box-shadow:none;
+      line-height:1;
+      white-space:nowrap;
+      font-weight:500;
+      transition:transform .15s ease, opacity .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+    html[data-theme="light"] .github-link{
+      background:#eaf0f7;
+      color:#0f172a;
+    }
+    .github-link:hover{
+      transform:translateY(-1px);
+    }
     .badge.purple{background:rgba(139,92,246,.12);border-color:rgba(139,92,246,.24)}
     .badge.blue{background:rgba(56,189,248,.12);border-color:rgba(56,189,248,.24)}
     .badge.green{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.24)}
@@ -622,3 +648,7 @@
     }
 
 #priorityView{padding:14px; display:grid; gap:10px;}
+
+.hidden {
+  display: none;
+}
