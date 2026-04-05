@@ -93,9 +93,9 @@
     historyCard.innerHTML = `
       <div class="section-title">
         <h2>History panel</h2>
-        <span class="badge"><strong>Saved:</strong> Locally</span>
+        <span class="badge"><strong>Mode:</strong> Session only</span>
       </div>
-      <p class="small-note">Recent inputs appear here. Click an item to restore it.</p>
+      <p class="small-note">Recent inputs appear here during this session. Click an item to restore it.</p>
       <div class="actions">
         <button type="button" id="clearHistoryBtn" class="danger">Clear history</button>
       </div>
@@ -116,7 +116,7 @@
         <h2>JSON import/export</h2>
         <span class="badge"><strong>Portable:</strong> Yes</span>
       </div>
-      <p class="small-note">Export your custom rules to JSON, copy them, or paste JSON back here to import.</p>
+      <p class="small-note">Export your custom rules to JSON, copy them, or paste JSON back here to import during this session.</p>
       <div class="rule-io-grid">
         <textarea id="rulesJsonArea" class="json-box" placeholder="Exported JSON appears here, or paste JSON to import"></textarea>
         <div class="actions">
@@ -153,17 +153,11 @@
   const redoRulesBtn = document.getElementById('redoRulesBtn');
 
   function loadHistory() {
-    try {
-      const raw = localStorage.getItem(historyKey);
-      const parsed = raw ? JSON.parse(raw) : [];
-      return Array.isArray(parsed) ? parsed.filter(Boolean) : [];
-    } catch {
-      return [];
-    }
+    return [];
   }
 
   function saveHistory() {
-    localStorage.setItem(historyKey, JSON.stringify(history.slice(0, 12)));
+    // Intentionally not persisted between sessions.
   }
 
   function getCurrentDirection() {

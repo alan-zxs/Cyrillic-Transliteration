@@ -73,19 +73,19 @@ function init() {
   tabButtons.forEach(button => button.addEventListener('click', () => setTab(button.dataset.tab)));
 
   const url = new URL(window.location.href);
-  const savedTheme = localStorage.getItem('romanizer-theme');
-  const savedProfile = localStorage.getItem('romanizer-profile');
-  const savedBatch = localStorage.getItem('romanizer-batch');
-  const savedForwardMode = localStorage.getItem('romanizer-forward-mode');
-  const savedReverseMode = localStorage.getItem('romanizer-reverse-mode');
-  const savedTab = localStorage.getItem('romanizer-active-tab');
-  state.tab = url.searchParams.get('tab') || savedTab || 'romanizer';
-  state.theme = url.searchParams.get('theme') === 'light' ? 'light' : (url.searchParams.get('theme') === 'dark' ? 'dark' : (savedTheme === 'light' ? 'light' : 'dark'));
-  state.profile = url.searchParams.get('profile') === 'names' ? 'names' : (savedProfile === 'names' ? 'names' : 'text');
-  state.batch = url.searchParams.get('batch') === '1' ? true : (savedBatch === '1');
-  state.forwardMode = ['auto','ru','ua'].includes(url.searchParams.get('fmode')) ? url.searchParams.get('fmode') : (['auto','ru','ua'].includes(savedForwardMode) ? savedForwardMode : 'auto');
-  state.reverseMode = ['auto','ru','ua'].includes(url.searchParams.get('rmode')) ? url.searchParams.get('rmode') : (['auto','ru','ua'].includes(savedReverseMode) ? savedReverseMode : 'auto');
-  state.customRules = loadRules();
+  try {
+    ['romanizer-theme','romanizer-profile','romanizer-batch','romanizer-forward-mode','romanizer-reverse-mode','romanizer-active-tab','romanizer-custom-rules']
+      .forEach(key => localStorage.removeItem(key));
+  } catch {}
+  state.tab = ['romanizer', 'reverse', 'rules', 'tests', 'reference'].includes(url.searchParams.get('tab'))
+    ? url.searchParams.get('tab')
+    : 'romanizer';
+  state.theme = url.searchParams.get('theme') === 'light' ? 'light' : 'dark';
+  state.profile = url.searchParams.get('profile') === 'names' ? 'names' : 'text';
+  state.batch = url.searchParams.get('batch') === '1';
+  state.forwardMode = ['ru','ua'].includes(url.searchParams.get('fmode')) ? url.searchParams.get('fmode') : 'auto';
+  state.reverseMode = ['ru','ua'].includes(url.searchParams.get('rmode')) ? url.searchParams.get('rmode') : 'auto';
+  state.customRules = [];
   applyTheme();
   els.profileSelect.value = state.profile;
   els.forwardMode.value = state.forwardMode;
@@ -216,24 +216,11 @@ function wireEvents() {
 }
 
 function loadRules() {
-  try {
-    const raw = localStorage.getItem('romanizer-custom-rules');
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    if (!Array.isArray(parsed)) return [];
-    return parsed.filter(item => item && typeof item.source === 'string' && typeof item.target === 'string').map(item => ({
-      source: item.source,
-      target: item.target,
-      direction: item.direction === 'forward' || item.direction === 'reverse' ? item.direction : 'both',
-      enabled: item.enabled !== false
-    }));
-  } catch {
-    return [];
-  }
+  return [];
 }
 
 function saveRules() {
-  localStorage.setItem('romanizer-custom-rules', JSON.stringify(state.customRules));
+  // Intentionally not persisted between sessions.
 }
 
 function applyTheme() {
@@ -267,13 +254,6 @@ function setTab(tab, updateHistory = true) {
 }
 
 function persistSettings() {
-  localStorage.setItem('romanizer-theme', state.theme);
-  localStorage.setItem('romanizer-profile', state.profile);
-  localStorage.setItem('romanizer-batch', state.batch ? '1' : '0');
-  localStorage.setItem('romanizer-forward-mode', state.forwardMode);
-  localStorage.setItem('romanizer-reverse-mode', state.reverseMode);
-  localStorage.setItem('romanizer-active-tab', state.tab);
-  saveRules();
   syncUrl();
 }
 
@@ -1349,8 +1329,12 @@ function renderTests() {
 }
 
 function registerSW() {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  if (!('serviceWorker' in navigator)) return;
+  navigator.serviceWorker.getRegistrations?.().then(registrations => {
+    registrations.forEach(registration => registration.unregister().catch(() => {}));
+  }).catch(() => {});
+  if (window.caches?.keys) {
+    caches.keys().then(keys => Promise.all(keys.map(key => caches.delete(key)))).catch(() => {});
   }
 }
 
