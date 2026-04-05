@@ -544,6 +544,49 @@ function titleCaseCyrillic(text) {
   return text.replace(/(^|[^А-Яа-яЁёІіЇїЄєҐґ]+)([А-Яа-яЁёІіЇїЄєҐґ])/g, (_, p1, p2) => p1 + p2.toUpperCase());
 }
 
+function formatForwardRuleLabel(rule) {
+  if (!rule) return rule;
+  const replacements = [
+    [/^Shch\b/, 'Щ'],
+    [/^Sch\b/, 'Щ'],
+    [/^Kh\b/, 'Х'],
+    [/^Zh\b/, 'Ж'],
+    [/^Ch\b/, 'Ч'],
+    [/^Sh\b/, 'Ш'],
+    [/^Ts\b/, 'Ц'],
+    [/^Yo\b/, 'Ё'],
+    [/^Ye\b/, 'Е'],
+    [/^Yu\b/, 'Ю'],
+    [/^Ya\b/, 'Я'],
+    [/^Yot\b/, 'Йот'],
+    [/^A\b/, 'А'],
+    [/^B\b/, 'Б'],
+    [/^V\b/, 'В'],
+    [/^G\b/, 'Г'],
+    [/^D\b/, 'Д'],
+    [/^E\b/, 'Е'],
+    [/^Z\b/, 'З'],
+    [/^I\b/, 'И'],
+    [/^K\b/, 'К'],
+    [/^L\b/, 'Л'],
+    [/^M\b/, 'М'],
+    [/^N\b/, 'Н'],
+    [/^O\b/, 'О'],
+    [/^P\b/, 'П'],
+    [/^R\b/, 'Р'],
+    [/^S\b/, 'С'],
+    [/^T\b/, 'Т'],
+    [/^U\b/, 'У'],
+    [/^F\b/, 'Ф'],
+    [/^X\b/, 'Х'],
+    [/^Y\b/, 'Ы'],
+  ];
+  for (const [re, repl] of replacements) {
+    if (re.test(rule)) return rule.replace(re, repl);
+  }
+  return rule;
+}
+
 function romanizeRussianChunk(chunk) {
   const chars = [...chunk];
   const out = [];
@@ -667,7 +710,7 @@ function romanizeRussianChunk(chunk) {
       }
     }
 
-    trace.push({ source: ch, result, rule });
+    trace.push({ source: ch, result, rule: formatForwardRuleLabel(rule) });
     out.push(result);
   }
   return { result: out.join(''), trace };
@@ -778,7 +821,7 @@ function romanizeUkrainianChunk(chunk) {
       }
     }
 
-    trace.push({ source: ch, result, rule });
+    trace.push({ source: ch, result, rule: formatForwardRuleLabel(rule) });
     out.push(result);
   }
   return { result: out.join(''), trace };
