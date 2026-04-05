@@ -211,8 +211,9 @@
       font-size:1rem;
     }
     .output{
-      min-height:240px;
+      height:240px;
       padding:16px;
+      overflow-y:auto;
       white-space:pre-wrap;
       word-break:break-word;
       line-height:1.65;
@@ -587,7 +588,8 @@
     @media (max-width: 680px){
       body{padding:14px}
       .hero,.card{padding:16px}
-      textarea,.output{min-height:190px}
+      textarea{min-height:190px}
+      .output{height:190px}
       .output-card .section-title{min-height:auto}
       .pair{grid-template-columns:1fr}
       .arrow{display:none}
