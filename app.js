@@ -90,8 +90,8 @@ function init() {
   els.profileSelect.value = state.profile;
   els.forwardMode.value = state.forwardMode;
   els.reverseMode.value = state.reverseMode;
-  els.forwardInput.value = url.searchParams.get('ftext') || (state.tab === 'romanizer' ? (url.searchParams.get('text') || 'Москва, подъезд') : '');
-  els.reverseInput.value = url.searchParams.get('rtext') || (state.tab === 'reverse' ? (url.searchParams.get('text') || 'Moskva, podyezd') : '');
+  els.forwardInput.value = url.searchParams.get('ftext') || (state.tab === 'romanizer' ? (url.searchParams.get('text') || '') : '');
+  els.reverseInput.value = url.searchParams.get('rtext') || (state.tab === 'reverse' ? (url.searchParams.get('text') || '') : '');
   els.singleViewBtn.classList.toggle('active', !state.batch);
   els.batchViewBtn.classList.toggle('active', state.batch);
   els.singleViewBtn.setAttribute('aria-pressed', String(!state.batch));
