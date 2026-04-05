@@ -1,8 +1,8 @@
 
 const DATA = {
-  forwardTests: [["ru", "Москва", "Moskva"], ["ru", "подъезд", "podyezd"], ["ru", "Ель", "Yel'"], ["ru", "Щука", "Schuka"], ["ru", "Новый год", "Novyi god"], ["ua", "Україна", "Ukrayina"], ["ua", "п’ять", "p'at'"], ["ua", "Європа", "Yevropa"], ["ua", "Ґанок", "Ganok"], ["ua", "кінець", "kinets'"], ["ua", "Ганна", "Hanna"]],
-  reverseTests: [["ru", "Moskva", "Москва"], ["ru", "podyezd", "подъезд"], ["ru", "Yel'", "Ель"], ["ru", "Novyi god", "Новый год"], ["ua", "Ukrayina", "Україна"], ["ua", "p'at'", "п’ять"], ["ua", "Yevropa", "Європа"], ["ua", "Ganok", "Ґанок"], ["ua", "Hanna", "Ганна"]],
-  ruReference: [["А", "a", "A"], ["Б", "b", "B"], ["В", "v", "V"], ["Г", "g", "G"], ["Д", "d", "D"], ["Е", "ye / e / 'e", "At start or after separator = ye; after hush consonants = e; after other consonants = 'e"], ["Ё", "yo / o / 'o", "At start or after separator = yo; after hush consonants = o; after other consonants = 'o"], ["Ж", "zh", "Zh"], ["З", "z", "Z"], ["И", "i", "I"], ["Й", "y", "Y"], ["К", "k", "K"], ["Л", "l", "L"], ["М", "m", "M"], ["Н", "n", "N"], ["О", "o", "O"], ["П", "p", "P"], ["Р", "r", "R"], ["С", "s", "S"], ["Т", "t", "T"], ["У", "u", "U"], ["Ф", "f", "F"], ["Х", "h / kh", "h usually; kh after s/c/z"], ["Ц", "ts", "Ts"], ["Ч", "ch", "Ch"], ["Ш", "sh", "Sh"], ["Щ", "sch / sh'", "sch usually; sh' before consonants"], ["Ы", "y", "Y"], ["Э", "e", "E"], ["Ю", "yu / 'u", "At start or after separator = yu; after consonants = 'u"], ["Я", "ya / 'a", "At start or after separator = ya; after consonants = 'a"], ["Ъ", "", "Omitted"], ["Ь", "' / omitted", "Apostrophe usually; omitted after hush consonants"]],
+  forwardTests: [["ru", "Москва", "Moskva"], ["ru", "подъезд", "podyezd"], ["ru", "Ель", "Yel'"], ["ru", "Соёло", "Soyolo"], ["ru", "Соело", "Soyelo"], ["ru", "Щука", "Schuka"], ["ru", "Новый год", "Novyi god"], ["ua", "Україна", "Ukrayina"], ["ua", "п’ять", "p'at'"], ["ua", "Європа", "Yevropa"], ["ua", "Ґанок", "Ganok"], ["ua", "кінець", "kinets'"], ["ua", "Ганна", "Hanna"]],
+  reverseTests: [["ru", "Moskva", "Москва"], ["ru", "podyezd", "подъезд"], ["ru", "Yel'", "Ель"], ["ru", "Soyolo", "Соёло"], ["ru", "Soyelo", "Соело"], ["ru", "Novyi god", "Новый год"], ["ua", "Ukrayina", "Україна"], ["ua", "p'at'", "п’ять"], ["ua", "Yevropa", "Європа"], ["ua", "Ganok", "Ґанок"], ["ua", "Hanna", "Ганна"]],
+  ruReference: [["А", "a", "A"], ["Б", "b", "B"], ["В", "v", "V"], ["Г", "g", "G"], ["Д", "d", "D"], ["Е", "ye / e / 'e", "At start or after separator = ye; after vowels = ye; after hush consonants = e; after other consonants = 'e"], ["Ё", "yo / o / 'o", "At start or after separator = yo; after vowels = yo; after hush consonants = o; after other consonants = 'o"], ["Ж", "zh", "Zh"], ["З", "z", "Z"], ["И", "i", "I"], ["Й", "y", "Y"], ["К", "k", "K"], ["Л", "l", "L"], ["М", "m", "M"], ["Н", "n", "N"], ["О", "o", "O"], ["П", "p", "P"], ["Р", "r", "R"], ["С", "s", "S"], ["Т", "t", "T"], ["У", "u", "U"], ["Ф", "f", "F"], ["Х", "h / kh", "h usually; kh after s/c/z"], ["Ц", "ts", "Ts"], ["Ч", "ch", "Ch"], ["Ш", "sh", "Sh"], ["Щ", "sch / sh'", "sch usually; sh' before consonants"], ["Ы", "y", "Y"], ["Э", "e", "E"], ["Ю", "yu / 'u", "At start or after separator = yu; after consonants = 'u"], ["Я", "ya / 'a", "At start or after separator = ya; after consonants = 'a"], ["Ъ", "", "Omitted"], ["Ь", "' / omitted", "Apostrophe usually; omitted after hush consonants"]],
   uaReference: [["А", "a", "A"], ["Б", "b", "B"], ["В", "v", "V"], ["Г", "h", "h"], ["Ґ", "g", "G"], ["Д", "d", "D"], ["Е", "e", "E"], ["Є", "ye / 'e", "At start or after separator = ye; after consonants = 'e"], ["Ж", "zh", "Zh"], ["З", "z", "Z"], ["И", "y / i", "y normally; i in -ий ending"], ["І", "i", "I"], ["Ї", "yi", "Yi"], ["Й", "y", "Y"], ["К", "k", "K"], ["Л", "l", "L"], ["М", "m", "M"], ["Н", "n", "N"], ["О", "o", "O"], ["П", "p", "P"], ["Р", "r", "R"], ["С", "s", "S"], ["Т", "t", "T"], ["У", "u", "U"], ["Ф", "f", "F"], ["Х", "kh", "Kh"], ["Ц", "ts", "Ts"], ["Ч", "ch", "Ch"], ["Ш", "sh", "Sh"], ["Щ", "shch", "Shch"], ["Ю", "yu / 'u", "At start or after separator = yu; after consonants = 'u"], ["Я", "ya / 'a", "At start or after separator = ya; after consonants = 'a"], ["Ь", "'", "Apostrophe"], ["Ъ", "", "Omitted"]],
   customRuleSeed: []
 };
@@ -21,6 +21,7 @@ let state = {
 const RU_LETTERS = new Set('абвгдеёжзийклмнопрстуфхцчшщъыьэюя'.split(''));
 const UA_LETTERS = new Set('абвгдеёжзийклмнопрстуфхцчшщъыьэюяіїєґ'.split(''));
 const RU_CONSONANTS = new Set('бвгджзйклмнпрстфхцчшщ'.split(''));
+const RU_VOWELS = new Set('аеёиоуыэюя'.split(''));
 const UA_CONSONANTS = new Set('бвгджзйклмнпрстфхцчшщґ'.split(''));
 const HUSH = new Set('жшцчщ'.split(''));
 const DEFAULT_FORWARD_EXAMPLES = [
@@ -614,24 +615,30 @@ function romanizeRussianChunk(chunk) {
         case 'г': result = 'g'; rule = 'G → g'; break;
         case 'д': result = 'd'; rule = 'D → d'; break;
         case 'е':
-          if (!prevRaw || !isCyrillicLetter(prevRaw) || prevRaw === "'" || prevRaw === '’' || prevRaw.toLowerCase() === 'ъ' || prevRaw.toLowerCase() === 'ь') {
+          if (!prev || !isCyrillicLetter(prevRaw) || prevRaw === "'" || prevRaw === '’' || prevRaw.toLowerCase() === 'ъ' || prevRaw.toLowerCase() === 'ь') {
             result = 'ye';
             rule = 'E at start or after separator → ye';
           } else if (HUSH.has(prev)) {
             result = 'e';
             rule = 'E after hush consonant → e';
+          } else if (RU_VOWELS.has(prev)) {
+            result = 'ye';
+            rule = 'E after vowel → ye';
           } else {
             result = "'e";
             rule = 'E after consonant → apostrophe + e';
           }
           break;
         case 'ё':
-          if (!prevRaw || !isCyrillicLetter(prevRaw) || prevRaw === "'" || prevRaw === '’' || prevRaw.toLowerCase() === 'ъ' || prevRaw.toLowerCase() === 'ь') {
+          if (!prev || !isCyrillicLetter(prevRaw) || prevRaw === "'" || prevRaw === '’' || prevRaw.toLowerCase() === 'ъ' || prevRaw.toLowerCase() === 'ь') {
             result = 'yo';
             rule = 'Yo at start or after separator → yo';
           } else if (HUSH.has(prev)) {
             result = 'o';
             rule = 'Yo after hush consonant → o';
+          } else if (RU_VOWELS.has(prev)) {
+            result = 'yo';
+            rule = 'Yo after vowel → yo';
           } else {
             result = "'o";
             rule = 'Yo after consonant → apostrophe + o';
