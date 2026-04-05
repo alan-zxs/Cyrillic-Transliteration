@@ -15,10 +15,6 @@
         <div class="eyebrow">Static GitHub Pages app</div>
         <div class="group">
           <button id="themeBtn" type="button" class="secondary">Theme: Dark</button>
-          <div class="view-toggle" role="tablist" aria-label="Batch mode">
-            <button id="singleViewBtn" type="button" class="active" aria-pressed="true">Single text</button>
-            <button id="batchViewBtn" type="button" aria-pressed="false">Batch lines</button>
-          </div>
         </div>
       </div>
       <h1>Cyrillic Romanizer</h1>
@@ -89,7 +85,10 @@
       <section class="card">
         <div class="section-title">
           <h2>Word and line breakdown</h2>
-          <span class="badge"><strong>Preview:</strong> Source to result</span>
+          <div class="view-toggle" role="tablist" aria-label="Batch mode">
+            <button id="singleViewBtn" type="button" class="active" aria-pressed="true">Single text</button>
+            <button id="batchViewBtn" type="button" aria-pressed="false">Batch lines</button>
+          </div>
         </div>
         <div id="forwardBreakdown" class="breakdown">
           <div class="breakdown-empty">Breakdown will appear here after you enter text.</div>

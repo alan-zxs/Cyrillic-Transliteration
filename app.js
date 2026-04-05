@@ -1051,7 +1051,6 @@ function buildBreakdown(text, direction, lang) {
               <span class="source-title">Source</span>
               <div class="source">${escapeHtml(token)}</div>
             </div>
-            <div class="arrow">→</div>
             <div>
               <span class="result-title">Result</span>
               <div class="result">${escapeHtml(styled)}</div>
@@ -1123,24 +1122,15 @@ function updateForward() {
   els.forwardLines.innerHTML = `<strong>Lines:</strong> ${info.lines}`;
   els.forwardScript.innerHTML = `<strong>Script:</strong> ${info.scriptBadge}`;
   els.forwardScript.className = 'badge' + (info.scriptBadge === 'Mixed input' ? ' orange' : '');
-  els.forwardNote.textContent = state.batch ? 'Batch mode transliterates one line at a time and keeps line breaks. Copy pairs exports each line as input → output.' : 'The output keeps punctuation, spaces, and line breaks. Copy pairs exports one line per input line as input → output.';
+  els.forwardNote.textContent = state.batch ? '' : '';
 }
 
 function buildBatchBreakdown(text, direction, lang) {
   const lines = text.split(/\r?\n/);
   const items = [];
   let index = 0;
-  lines.forEach((line, lineIndex) => {
+  lines.forEach((line) => {
     if (!line.trim()) {
-      items.push(`
-        <div class="entry">
-          <div class="entry-head">
-            <span class="entry-title">Line ${lineIndex + 1}</span>
-            <span class="chip">Blank</span>
-          </div>
-          <div class="rules">No content on this line.</div>
-        </div>
-      `);
       return;
     }
     index += 1;
@@ -1157,7 +1147,6 @@ function buildBatchBreakdown(text, direction, lang) {
       <div class="entry">
         <div class="entry-head">
           <span class="entry-title">Line ${index}</span>
-          <span class="chip">${escapeHtml(line)}</span>
         </div>
         <div class="entry-body">
           <div class="pair">
@@ -1165,7 +1154,6 @@ function buildBatchBreakdown(text, direction, lang) {
               <span class="source-title">Source</span>
               <div class="source">${escapeHtml(line)}</div>
             </div>
-            <div class="arrow">→</div>
             <div>
               <span class="result-title">Result</span>
               <div class="result">${escapeHtml(out)}</div>
@@ -1179,7 +1167,8 @@ function buildBatchBreakdown(text, direction, lang) {
       </div>
     `);
   });
-  return items.length ? items.join('') : '<div class="breakdown-empty">Breakdown will appear here after you enter text.</div>';
+
+  return items.join('');
 }
 
 function updateReverse() {
@@ -1194,7 +1183,7 @@ function updateReverse() {
   els.reverseLines.innerHTML = `<strong>Lines:</strong> ${info.lines}`;
   els.reverseScript.innerHTML = `<strong>Script:</strong> ${info.scriptBadge}`;
   els.reverseScript.className = 'badge' + (info.scriptBadge === 'Mixed input' ? ' orange' : '');
-  els.reverseNote.textContent = state.batch ? 'Batch mode transliterates one line at a time and keeps line breaks. Copy pairs exports each line as input → output.' : 'The output keeps punctuation, spaces, and line breaks. The reverse mapping is approximate for ambiguous Latin sequences.';
+  els.reverseNote.textContent = state.batch ? '' : '';
 }
 
 function getActiveInput() {

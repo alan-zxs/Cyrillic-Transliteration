@@ -298,7 +298,7 @@
       flex-wrap:wrap;
       justify-content:space-between;
       gap:10px;
-      align-items:center;
+      align-items:flex-start;
     }
     .entry-title{
       font-size:.74rem;
@@ -306,21 +306,31 @@
       letter-spacing:.09em;
       color:var(--muted);
     }
+    .entry-head .chip{
+      white-space:normal;
+      overflow-wrap:anywhere;
+      line-height:1.35;
+    }
     .entry-body{
       display:grid;
       gap:8px;
     }
     .pair{
       display:grid;
-      grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
-      gap:10px;
+      grid-template-columns:minmax(0,1fr);
+      gap:8px;
       align-items:start;
+    }
+    .pair > div{
+      min-width:0;
     }
     .source,.result,.rules{
       font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
       font-size:.94rem;
       line-height:1.5;
+      overflow-wrap:anywhere;
       word-break:break-word;
+      white-space:normal;
     }
     .source-title,.result-title,.rules-title{
       display:block;
@@ -339,8 +349,9 @@
     }
     .arrow{
       color:var(--muted);
-      padding-top:1px;
+      padding-top:0;
       user-select:none;
+      justify-self:center;
     }
     .subgrid{
       display:grid;
