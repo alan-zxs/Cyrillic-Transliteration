@@ -1,9 +1,69 @@
-
 const DATA = {
-  forwardTests: [["ru", "Москва", "Moskva"], ["ru", "подъезд", "podyezd"], ["ru", "Ель", "Yel'"], ["ru", "Соёло", "Soyolo"], ["ru", "Соело", "Soyelo"], ["ru", "Щука", "Schuka"], ["ru", "Новый год", "Novyi god"], ["ua", "Україна", "Ukrayina"], ["ua", "п’ять", "p'at'"], ["ua", "Європа", "Yevropa"], ["ua", "Ґанок", "Ganok"], ["ua", "кінець", "kinets'"], ["ua", "Ганна", "Hanna"]],
-  reverseTests: [["ru", "Moskva", "Москва"], ["ru", "podyezd", "подъезд"], ["ru", "Yel'", "Ель"], ["ru", "Soyolo", "Соёло"], ["ru", "Soyelo", "Соело"], ["ru", "Novyi god", "Новый год"], ["ua", "Ukrayina", "Україна"], ["ua", "p'at'", "п’ять"], ["ua", "Yevropa", "Європа"], ["ua", "Ganok", "Ґанок"], ["ua", "Hanna", "Ганна"]],
-  ruReference: [["А", "a", "A"], ["Б", "b", "B"], ["В", "v", "V"], ["Г", "g", "G"], ["Д", "d", "D"], ["Е", "ye / e / 'e", "At start or after separator = ye; after vowels = ye; after hush consonants = e; after other consonants = 'e"], ["Ё", "yo / o / 'o", "At start or after separator = yo; after vowels = yo; after hush consonants = o; after other consonants = 'o"], ["Ж", "zh", "Zh"], ["З", "z", "Z"], ["И", "i", "I"], ["Й", "y", "Y"], ["К", "k", "K"], ["Л", "l", "L"], ["М", "m", "M"], ["Н", "n", "N"], ["О", "o", "O"], ["П", "p", "P"], ["Р", "r", "R"], ["С", "s", "S"], ["Т", "t", "T"], ["У", "u", "U"], ["Ф", "f", "F"], ["Х", "h / kh", "h usually; kh after с/ц/з"], ["Ц", "ts", "Ts"], ["Ч", "ch", "Ch"], ["Ш", "sh", "Sh"], ["Щ", "sch / sh'", "sch usually; sh' before consonants"], ["Ы", "y", "Y"], ["Э", "e", "E"], ["Ю", "yu / 'u", "At start or after separator = yu; after consonants = 'u"], ["Я", "ya / 'a", "At start or after separator = ya; after consonants = 'a"], ["Ъ", "", "Omitted"], ["Ь", "' / omitted", "Apostrophe usually; omitted after hush consonants"]],
-  uaReference: [["А", "a", "A"], ["Б", "b", "B"], ["В", "v", "V"], ["Г", "h", "h"], ["Ґ", "g", "G"], ["Д", "d", "D"], ["Е", "e", "E"], ["Є", "ye / 'e", "At start or after separator = ye; after consonants = 'e"], ["Ж", "zh", "Zh"], ["З", "z", "Z"], ["И", "y / i", "y normally; i in -ий ending"], ["І", "i", "I"], ["Ї", "yi", "Yi"], ["Й", "y", "Y"], ["К", "k", "K"], ["Л", "l", "L"], ["М", "m", "M"], ["Н", "n", "N"], ["О", "o", "O"], ["П", "p", "P"], ["Р", "r", "R"], ["С", "s", "S"], ["Т", "t", "T"], ["У", "u", "U"], ["Ф", "f", "F"], ["Х", "kh", "Kh"], ["Ц", "ts", "Ts"], ["Ч", "ch", "Ch"], ["Ш", "sh", "Sh"], ["Щ", "shch", "Shch"], ["Ю", "yu / 'u", "At start or after separator = yu; after consonants = 'u"], ["Я", "ya / 'a", "At start or after separator = ya; after consonants = 'a"], ["Ь", "'", "Apostrophe"], ["Ъ", "", "Omitted"]],
+  forwardTests: [
+    ["ru", "Москва", "Moskva"], 
+    ["ru", "подъезд", "podyezd"], 
+    ["ru", "Ель", "Yel"], 
+    ["ru", "Соёло", "Soyolo"], 
+    ["ru", "Соело", "Soyelo"], 
+    ["ru", "Щука", "Shchuka"], 
+    ["ru", "Новый год", "Novy god"], 
+    ["ru", "Набережные", "Naberezhnye"],
+    ["ru", "Великий", "Veliky"],
+    ["ua", "Україна", "Ukraina"], 
+    ["ua", "п’ять", "piat"], 
+    ["ua", "Європа", "Yevropa"], 
+    ["ua", "Ґанок", "Ganok"], 
+    ["ua", "кінець", "kinets"], 
+    ["ua", "Ганна", "Hanna"],
+    ["ua", "Згорани", "Zghorany"],
+    ["ua", "Стрий", "Stryi"]
+  ],
+  reverseTests: [
+    ["ru", "Moskva", "Москва"], 
+    ["ru", "podyezd", "подъезд"], 
+    ["ru", "Yel", "Ел"], 
+    ["ru", "Soyolo", "Соёло"], 
+    ["ru", "Soyelo", "Соело"], 
+    ["ru", "Shchuka", "Щука"], 
+    ["ru", "Novy god", "Новй год"], 
+    ["ua", "Ukraina", "Украіна"], 
+    ["ua", "piat", "піат"], 
+    ["ua", "Yevropa", "Європа"], 
+    ["ua", "Ganok", "Ґанок"], 
+    ["ua", "kinets", "кінетс"], 
+    ["ua", "Hanna", "Ганна"]
+  ],
+  ruReference: [
+    ["А", "a", "A"], ["Б", "b", "B"], ["В", "v", "V"], ["Г", "g", "G"], ["Д", "d", "D"], 
+    ["Е", "ye / e", "ye at start, after vowels, ъ, ь; e after consonants; in -ые ending: e"], 
+    ["Ё", "yo", "Yo"], ["Ж", "zh", "Zh"], ["З", "z", "Z"], 
+    ["И", "i / y", "i usually; y in -ий ending"], 
+    ["Й", "y", "y usually; omitted in -ый, -ий endings"], 
+    ["К", "k", "K"], ["Л", "l", "L"], ["М", "m", "M"], ["Н", "n", "N"], 
+    ["О", "o", "O"], ["П", "p", "P"], ["Р", "r", "R"], ["С", "s", "S"], 
+    ["Т", "t", "T"], ["У", "u", "U"], ["Ф", "f", "F"], ["Х", "kh", "Kh"], 
+    ["Ц", "ts", "Ts"], ["Ч", "ch", "Ch"], ["Ш", "sh", "Sh"], ["Щ", "shch", "Shch"], 
+    ["Ъ", "omitted / y", "Omitted before е, ё, ю, я; y before а, и, о, у, ы, э"], 
+    ["Ы", "y", "Y"], 
+    ["Ь", "omitted / y", "Omitted before е, ё, ю, я, consonants, and at end; y before а, и, о, у, ы, э"], 
+    ["Э", "e", "E"], ["Ю", "yu", "Yu"], ["Я", "ya", "Ya"]
+  ],
+  uaReference: [
+    ["А", "a", "A"], ["Б", "b", "B"], ["В", "v", "V"], ["Г", "h / gh", "h usually; gh after З"], 
+    ["Ґ", "g", "G"], ["Д", "d", "D"], ["Е", "e", "E"], 
+    ["Є", "ye / ie", "ye word-initially; ie elsewhere"], 
+    ["Ж", "zh", "Zh"], ["З", "z", "Z"], ["И", "y", "Y"], ["І", "i", "I"], 
+    ["Ї", "yi / i", "yi word-initially; i elsewhere"], 
+    ["Й", "y / i", "y word-initially; i elsewhere"], 
+    ["К", "k", "K"], ["Л", "l", "L"], ["М", "m", "M"], ["Н", "n", "N"], 
+    ["О", "o", "O"], ["П", "p", "P"], ["Р", "r", "R"], ["С", "s", "S"], 
+    ["Т", "t", "T"], ["У", "u", "U"], ["Ф", "f", "F"], ["Х", "kh", "Kh"], 
+    ["Ц", "ts", "Ts"], ["Ч", "ch", "Ch"], ["Ш", "sh", "Sh"], ["Щ", "shch", "Shch"], 
+    ["Ь", "omitted", "Omitted"], 
+    ["Ю", "yu / iu", "yu word-initially; iu elsewhere"], 
+    ["Я", "ya / ia", "ya word-initially; ia elsewhere"], 
+    ["'", "omitted", "Apostrophe omitted"]
+  ],
   customRuleSeed: []
 };
 
@@ -24,16 +84,18 @@ const RU_CONSONANTS = new Set('бвгджзйклмнпрстфхцчшщ'.split
 const RU_VOWELS = new Set('аеёиоуыэюя'.split(''));
 const UA_CONSONANTS = new Set('бвгджзйклмнпрстфхцчшщґ'.split(''));
 const HUSH = new Set('жшцчщ'.split(''));
+
 const DEFAULT_FORWARD_EXAMPLES = [
-  {label: 'Russian sample', value: 'Москва, подъезд, ещё, Ель, Щука, объём, съезд, Новый год'},
-  {label: 'Ukrainian sample', value: 'Україна, п’ять, Європа, Ганна, Ґанок, Щастя, кінець'},
-  {label: 'Edge cases', value: 'подъезд\nсъезд\nпять\nп’ять'}
+  {label: 'Russian sample', value: 'Москва, подъезд, Великий, Ель, Щука, объём, съезд, Новый год'},
+  {label: 'Ukrainian sample', value: 'Україна, п’ять, Європа, Ганна, Ґанок, Щастя, кінець, Стрий'},
+  {label: 'Edge cases', value: 'подъезд\nНабережные\nЗнам\'янка\nп’ять'}
 ];
 const DEFAULT_REVERSE_EXAMPLES = [
-  {label: 'Russian sample', value: 'Moskva, podyezd, Yel\', Schuka, Novyi god'},
-  {label: 'Ukrainian sample', value: 'Ukrayina, p\'at\', Yevropa, Hanna, Ganok'},
-  {label: 'Edge cases', value: 'podyezd\nYel\'\nNovyi god\np\'at\''}
+  {label: 'Russian sample', value: 'Moskva, podyezd, Yel, Shchuka, Novy god'},
+  {label: 'Ukrainian sample', value: 'Ukraina, piat, Yevropa, Hanna, Ganok'},
+  {label: 'Edge cases', value: 'podyezd\nYel\nNovy god\npiat'}
 ];
+
 const TOKEN_RE = /([A-Za-zА-Яа-яЁёІіЇїЄєҐґЪъЬь'’]+)/gu;
 const CYR_RE = /[А-Яа-яЁёІіЇїЄєҐґЪъЬь]/;
 const LAT_RE = /[A-Za-z]/;
@@ -219,9 +281,7 @@ function loadRules() {
   return [];
 }
 
-function saveRules() {
-  // Intentionally not persisted between sessions.
-}
+function saveRules() {}
 
 function applyTheme() {
   document.documentElement.dataset.theme = state.theme;
@@ -453,34 +513,6 @@ function activeLanguageFor(direction, text) {
   return direction === 'forward' ? detectCyrillicLanguage(text) : detectLatinLanguage(text);
 }
 
-function prevLetter(chars, i, lang) {
-  const check = lang === 'ru' ? isRuLetter : isUaLetter;
-  for (let j = i - 1; j >= 0; j--) {
-    const ch = chars[j];
-    const low = ch.toLowerCase();
-    if (ch === "'" || ch === '’' || low === 'ъ' || low === 'ь') continue;
-    if (check(ch)) return low;
-    break;
-  }
-  return null;
-}
-
-function nextLetter(chars, i, lang) {
-  const check = lang === 'ru' ? isRuLetter : isUaLetter;
-  for (let j = i + 1; j < chars.length; j++) {
-    const ch = chars[j];
-    const low = ch.toLowerCase();
-    if (ch === "'" || ch === '’' || low === 'ъ' || low === 'ь') continue;
-    if (check(ch)) return low;
-    break;
-  }
-  return null;
-}
-
-function rawPrev(chars, i) {
-  return i > 0 ? chars[i - 1] : null;
-}
-
 function isAllUppercase(chunk, lang) {
   const check = lang === 'ru' ? isRuLetter : isUaLetter;
   const letters = [...chunk].filter(check);
@@ -539,7 +571,7 @@ function formatForwardRuleLabel(rule) {
     [/^Ye\b/, 'Е'],
     [/^Yu\b/, 'Ю'],
     [/^Ya\b/, 'Я'],
-    [/^Yot\b/, 'Йот'],
+    [/^Y\b/, 'Й'],
     [/^A\b/, 'А'],
     [/^B\b/, 'Б'],
     [/^V\b/, 'В'],
@@ -559,8 +591,7 @@ function formatForwardRuleLabel(rule) {
     [/^T\b/, 'Т'],
     [/^U\b/, 'У'],
     [/^F\b/, 'Ф'],
-    [/^X\b/, 'Х'],
-    [/^Y\b/, 'Ы'],
+    [/^X\b/, 'Х']
   ];
   for (const [re, repl] of replacements) {
     if (re.test(rule)) return rule.replace(re, repl);
@@ -572,133 +603,137 @@ function romanizeRussianChunk(chunk) {
   const chars = [...chunk];
   const out = [];
   const trace = [];
+
   for (let i = 0; i < chars.length; i++) {
     const ch = chars[i];
     const low = ch.toLowerCase();
-    const prev = prevLetter(chars, i, 'ru');
-    const next = nextLetter(chars, i, 'ru');
-    const prevRaw = rawPrev(chars, i);
+
+    let prevC = null;
+    for (let j = i - 1; j >= 0; j--) {
+      let c = chars[j].toLowerCase();
+      if (c !== "'" && c !== "’") { prevC = c; break; }
+    }
+
+    let nextC = null;
+    let nextNextC = null;
+    let foundNext = false;
+    for (let j = i + 1; j < chars.length; j++) {
+      let c = chars[j].toLowerCase();
+      if (c !== "'" && c !== "’") {
+        if (!foundNext) { nextC = c; foundNext = true; }
+        else { nextNextC = c; break; }
+      }
+    }
+
     let result = ch;
     let rule = 'Preserved';
 
+    const iotated = new Set(['е', 'ё', 'ю', 'я']);
+    const nonIotatedVowels = new Set(['а', 'и', 'о', 'у', 'ы', 'э']);
+    const vowels = new Set(['а', 'е', 'ё', 'и', 'о', 'у', 'ы', 'э', 'ю', 'я']);
+
     if (low === 'ъ') {
-      result = '';
-      rule = 'Hard sign omitted';
+      if (nextC && iotated.has(nextC)) {
+        result = '';
+        rule = 'Hard sign omitted before iotated vowel';
+      } else if (nextC && nonIotatedVowels.has(nextC)) {
+        result = 'y';
+        rule = 'Hard sign → y before non-iotated vowel';
+      } else {
+        result = '';
+        rule = 'Hard sign omitted';
+      }
     } else if (low === 'ь') {
-      result = HUSH.has(prev) ? '' : "'";
-      rule = HUSH.has(prev) ? 'Soft sign omitted after hush consonant' : 'Soft sign becomes apostrophe';
+      if (nextC && iotated.has(nextC)) {
+        result = '';
+        rule = 'Soft sign omitted before iotated vowel';
+      } else if (nextC && nonIotatedVowels.has(nextC)) {
+        result = 'y';
+        rule = 'Soft sign → y before non-iotated vowel';
+      } else {
+        result = '';
+        rule = 'Soft sign omitted';
+      }
+    } else if (low === "'" || low === "’") {
+      result = '';
+      rule = 'Apostrophe omitted';
     } else {
       switch (low) {
-        case 'а': result = 'a'; rule = 'A → a'; break;
-        case 'б': result = 'b'; rule = 'B → b'; break;
-        case 'в': result = 'v'; rule = 'V → v'; break;
-        case 'г': result = 'g'; rule = 'G → g'; break;
-        case 'д': result = 'd'; rule = 'D → d'; break;
+        case 'а': result = 'a'; rule = 'А → a'; break;
+        case 'б': result = 'b'; rule = 'Б → b'; break;
+        case 'в': result = 'v'; rule = 'В → v'; break;
+        case 'г': result = 'g'; rule = 'Г → g'; break;
+        case 'д': result = 'd'; rule = 'Д → d'; break;
         case 'е':
-          if (!prev || !isCyrillicLetter(prevRaw) || prevRaw === "'" || prevRaw === '’' || prevRaw.toLowerCase() === 'ъ' || prevRaw.toLowerCase() === 'ь') {
-            result = 'ye';
-            rule = 'E at start or after separator → ye';
-          } else if (HUSH.has(prev)) {
+          if (!prevC || vowels.has(prevC) || prevC === 'ъ' || prevC === 'ь') {
+            if (prevC === 'ы' && nextC === null) {
+              result = 'e';
+              rule = 'Е in -ые ending → e';
+            } else {
+              result = 'ye';
+              rule = 'Е at start, after vowel, ъ, ь → ye';
+            }
+          } else {
             result = 'e';
-            rule = 'E after hush consonant → e';
-          } else if (RU_VOWELS.has(prev)) {
-            result = 'ye';
-            rule = 'E after vowel → ye';
-          } else {
-            result = "'e";
-            rule = 'E after consonant → apostrophe + e';
+            rule = 'Е after consonant → e';
           }
           break;
-        case 'ё':
-          if (!prev || !isCyrillicLetter(prevRaw) || prevRaw === "'" || prevRaw === '’' || prevRaw.toLowerCase() === 'ъ' || prevRaw.toLowerCase() === 'ь') {
-            result = 'yo';
-            rule = 'Yo at start or after separator → yo';
-          } else if (HUSH.has(prev)) {
-            result = 'o';
-            rule = 'Yo after hush consonant → o';
-          } else if (RU_VOWELS.has(prev)) {
-            result = 'yo';
-            rule = 'Yo after vowel → yo';
+        case 'ё': result = 'yo'; rule = 'Ё → yo'; break;
+        case 'ж': result = 'zh'; rule = 'Ж → zh'; break;
+        case 'з': result = 'z'; rule = 'З → z'; break;
+        case 'и':
+          if (nextC === 'й' && nextNextC === null) {
+            result = 'y';
+            rule = 'И in -ий ending → y';
           } else {
-            result = "'o";
-            rule = 'Yo after consonant → apostrophe + o';
-          }
-          break;
-        case 'ж': result = 'zh'; rule = 'Zh digraph'; break;
-        case 'з': result = 'z'; rule = 'Z → z'; break;
-        case 'и': result = 'i'; rule = 'I → i'; break;
-        case 'й':
-          if (prev === 'ы' && next === null) {
             result = 'i';
-            rule = 'Ending ЫЙ → i';
+            rule = 'И → i';
+          }
+          break;
+        case 'й':
+          if ((prevC === 'и' || prevC === 'ы') && nextC === null) {
+            result = '';
+            rule = 'Й omitted in -ий/-ый ending';
           } else {
             result = 'y';
-            rule = 'Yot → y';
+            rule = 'Й → y';
           }
           break;
-        case 'к': result = 'k'; rule = 'K → k'; break;
-        case 'л': result = 'l'; rule = 'L → l'; break;
-        case 'м': result = 'm'; rule = 'M → m'; break;
-        case 'н': result = 'n'; rule = 'N → n'; break;
-        case 'о': result = 'o'; rule = 'O → o'; break;
-        case 'п': result = 'p'; rule = 'P → p'; break;
-        case 'р': result = 'r'; rule = 'R → r'; break;
-        case 'с': result = 's'; rule = 'S → s'; break;
-        case 'т': result = 't'; rule = 'T → t'; break;
-        case 'у': result = 'u'; rule = 'U → u'; break;
-        case 'ф': result = 'f'; rule = 'F → f'; break;
-        case 'х':
-          if (prev && 'сцз'.includes(prev)) {
-            result = 'kh';
-            rule = 'X after С/Ц/З → kh';
+        case 'к': result = 'k'; rule = 'К → k'; break;
+        case 'л': result = 'l'; rule = 'Л → l'; break;
+        case 'м': result = 'm'; rule = 'М → m'; break;
+        case 'н': result = 'n'; rule = 'Н → n'; break;
+        case 'о': result = 'o'; rule = 'О → o'; break;
+        case 'п': result = 'p'; rule = 'П → p'; break;
+        case 'р': result = 'r'; rule = 'Р → r'; break;
+        case 'с': result = 's'; rule = 'С → s'; break;
+        case 'т': result = 't'; rule = 'Т → t'; break;
+        case 'у': result = 'u'; rule = 'У → u'; break;
+        case 'ф': result = 'f'; rule = 'Ф → f'; break;
+        case 'х': result = 'kh'; rule = 'Х → kh'; break;
+        case 'ц': result = 'ts'; rule = 'Ц → ts'; break;
+        case 'ч': result = 'ch'; rule = 'Ч → ch'; break;
+        case 'ш': result = 'sh'; rule = 'Ш → sh'; break;
+        case 'щ': result = 'shch'; rule = 'Щ → shch'; break;
+        case 'ы':
+          if (nextC === 'й' && nextNextC === null) {
+            result = 'y';
+            rule = 'Ы in -ый ending → y';
           } else {
-            result = 'h';
-            rule = 'X in other cases → h';
+            result = 'y';
+            rule = 'Ы → y';
           }
           break;
-        case 'ц': result = 'ts'; rule = 'Ts digraph'; break;
-        case 'ч': result = 'ch'; rule = 'Ch digraph'; break;
-        case 'ш': result = 'sh'; rule = 'Sh digraph'; break;
-        case 'щ':
-          if (next && RU_CONSONANTS.has(next)) {
-            result = "sh'";
-            rule = 'Shch before consonant → sh\'';
-          } else {
-            result = 'sch';
-            rule = 'Shch in other cases → sch';
-          }
-          break;
-        case 'ы': result = 'y'; rule = 'Y → y'; break;
-        case 'э': result = 'e'; rule = 'E → e'; break;
-        case 'ю':
-          if (!prevRaw || !isCyrillicLetter(prevRaw) || prevRaw === "'" || prevRaw === '’' || prevRaw.toLowerCase() === 'ъ' || prevRaw.toLowerCase() === 'ь') {
-            result = 'yu';
-            rule = 'Yu at start or after separator → yu';
-          } else if (RU_CONSONANTS.has(prev)) {
-            result = "'u";
-            rule = 'Yu after consonant → apostrophe + u';
-          } else {
-            result = 'yu';
-            rule = 'Yu in other cases → yu';
-          }
-          break;
-        case 'я':
-          if (!prevRaw || !isCyrillicLetter(prevRaw) || prevRaw === "'" || prevRaw === '’' || prevRaw.toLowerCase() === 'ъ' || prevRaw.toLowerCase() === 'ь') {
-            result = 'ya';
-            rule = 'Ya at start or after separator → ya';
-          } else if (RU_CONSONANTS.has(prev)) {
-            result = "'a";
-            rule = 'Ya after consonant → apostrophe + a';
-          } else {
-            result = 'ya';
-            rule = 'Ya in other cases → ya';
-          }
-          break;
+        case 'э': result = 'e'; rule = 'Э → e'; break;
+        case 'ю': result = 'yu'; rule = 'Ю → yu'; break;
+        case 'я': result = 'ya'; rule = 'Я → ya'; break;
       }
     }
 
     trace.push({ source: ch, result, rule: formatForwardRuleLabel(rule) });
-    out.push(result);
+    if (result !== undefined && result !== null) {
+      out.push(result);
+    }
   }
   return { result: out.join(''), trace };
 }
@@ -707,109 +742,112 @@ function romanizeUkrainianChunk(chunk) {
   const chars = [...chunk];
   const out = [];
   const trace = [];
+
   for (let i = 0; i < chars.length; i++) {
     const ch = chars[i];
     const low = ch.toLowerCase();
-    const prev = prevLetter(chars, i, 'ua');
-    const next = nextLetter(chars, i, 'ua');
-    const prevRaw = rawPrev(chars, i);
+    
+    let prevC = null;
+    for(let j = i - 1; j >= 0; j--) {
+        let c = chars[j].toLowerCase();
+        if (c !== "'" && c !== "’") { prevC = c; break; }
+    }
+
     let result = ch;
     let rule = 'Preserved';
 
-    if (low === 'ъ' || low === "'" || low === '’') {
+    if (low === "'" || low === "’" || low === 'ь' || low === 'ъ') {
       result = '';
-      rule = 'Apostrophe or hard sign omitted';
-    } else if (low === 'ь') {
-      result = "'";
-      rule = 'Soft sign becomes apostrophe';
+      rule = 'Apostrophe or soft/hard sign omitted';
     } else {
       switch (low) {
-        case 'а': result = 'a'; rule = 'A → a'; break;
-        case 'б': result = 'b'; rule = 'B → b'; break;
-        case 'в': result = 'v'; rule = 'V → v'; break;
+        case 'а': result = 'a'; rule = 'А → a'; break;
+        case 'б': result = 'b'; rule = 'Б → b'; break;
+        case 'в': result = 'v'; rule = 'В → v'; break;
         case 'г':
-          if (prev && 'сцз'.includes(prev)) {
+          if (prevC === 'з') {
             result = 'gh';
-            rule = 'G after С/Ц/З → gh';
+            rule = 'Г after З → gh';
           } else {
             result = 'h';
-            rule = 'G → h';
+            rule = 'Г → h';
           }
           break;
         case 'ґ': result = 'g'; rule = 'Ґ → g'; break;
-        case 'д': result = 'd'; rule = 'D → d'; break;
-        case 'е': result = 'e'; rule = 'E → e'; break;
+        case 'д': result = 'd'; rule = 'Д → d'; break;
+        case 'е': result = 'e'; rule = 'Е → e'; break;
         case 'є':
-          if (!prevRaw || !isCyrillicLetter(prevRaw) || prevRaw === "'" || prevRaw === '’' || prevRaw.toLowerCase() === 'ъ' || prevRaw.toLowerCase() === 'ь') {
+          if (!prevC) {
             result = 'ye';
-            rule = 'Ye at start or after separator → ye';
-          } else if (UA_CONSONANTS.has(prev)) {
-            result = "'e";
-            rule = 'Ye after consonant → apostrophe + e';
+            rule = 'Є word-initially → ye';
           } else {
-            result = 'ye';
-            rule = 'Ye in other cases → ye';
+            result = 'ie';
+            rule = 'Є elsewhere → ie';
           }
           break;
-        case 'ж': result = 'zh'; rule = 'Zh digraph'; break;
-        case 'з': result = 'z'; rule = 'Z → z'; break;
-        case 'и':
-          if (next === 'й') {
+        case 'ж': result = 'zh'; rule = 'Ж → zh'; break;
+        case 'з': result = 'z'; rule = 'З → z'; break;
+        case 'и': result = 'y'; rule = 'И → y'; break;
+        case 'і': result = 'i'; rule = 'І → i'; break;
+        case 'ї':
+          if (!prevC) {
+            result = 'yi';
+            rule = 'Ї word-initially → yi';
+          } else {
             result = 'i';
-            rule = 'ИЙ ending → i';
-          } else {
-            result = 'y';
-            rule = 'Y → y';
+            rule = 'Ї elsewhere → i';
           }
           break;
-        case 'і': result = 'i'; rule = 'I → i'; break;
-        case 'ї': result = 'yi'; rule = 'Ї → yi'; break;
-        case 'й': result = 'y'; rule = 'Й → y'; break;
-        case 'к': result = 'k'; rule = 'K → k'; break;
-        case 'л': result = 'l'; rule = 'L → l'; break;
-        case 'м': result = 'm'; rule = 'M → m'; break;
-        case 'н': result = 'n'; rule = 'N → n'; break;
-        case 'о': result = 'o'; rule = 'O → o'; break;
-        case 'п': result = 'p'; rule = 'P → p'; break;
-        case 'р': result = 'r'; rule = 'R → r'; break;
-        case 'с': result = 's'; rule = 'S → s'; break;
-        case 'т': result = 't'; rule = 'T → t'; break;
-        case 'у': result = 'u'; rule = 'U → u'; break;
-        case 'ф': result = 'f'; rule = 'F → f'; break;
-        case 'х': result = 'kh'; rule = 'Kh digraph'; break;
-        case 'ц': result = 'ts'; rule = 'Ts digraph'; break;
-        case 'ч': result = 'ch'; rule = 'Ch digraph'; break;
-        case 'ш': result = 'sh'; rule = 'Sh digraph'; break;
-        case 'щ': result = 'shch'; rule = 'Shch digraph'; break;
-        case 'ю':
-          if (!prevRaw || !isCyrillicLetter(prevRaw) || prevRaw === "'" || prevRaw === '’' || prevRaw.toLowerCase() === 'ъ' || prevRaw.toLowerCase() === 'ь') {
-            result = 'yu';
-            rule = 'Yu at start or after separator → yu';
-          } else if (UA_CONSONANTS.has(prev)) {
-            result = "'u";
-            rule = 'Yu after consonant → apostrophe + u';
+        case 'й':
+          if (!prevC) {
+            result = 'y';
+            rule = 'Й word-initially → y';
           } else {
+            result = 'i';
+            rule = 'Й elsewhere → i';
+          }
+          break;
+        case 'к': result = 'k'; rule = 'К → k'; break;
+        case 'л': result = 'l'; rule = 'Л → l'; break;
+        case 'м': result = 'm'; rule = 'М → m'; break;
+        case 'н': result = 'n'; rule = 'Н → n'; break;
+        case 'о': result = 'o'; rule = 'О → o'; break;
+        case 'п': result = 'p'; rule = 'П → p'; break;
+        case 'р': result = 'r'; rule = 'Р → r'; break;
+        case 'с': result = 's'; rule = 'С → s'; break;
+        case 'т': result = 't'; rule = 'Т → t'; break;
+        case 'у': result = 'u'; rule = 'У → u'; break;
+        case 'ф': result = 'f'; rule = 'Ф → f'; break;
+        case 'х': result = 'kh'; rule = 'Х → kh'; break;
+        case 'ц': result = 'ts'; rule = 'Ц → ts'; break;
+        case 'ч': result = 'ch'; rule = 'Ч → ch'; break;
+        case 'ш': result = 'sh'; rule = 'Ш → sh'; break;
+        case 'щ': result = 'shch'; rule = 'Щ → shch'; break;
+        case 'ю':
+          if (!prevC) {
             result = 'yu';
-            rule = 'Yu in other cases → yu';
+            rule = 'Ю word-initially → yu';
+          } else {
+            result = 'iu';
+            rule = 'Ю elsewhere → iu';
           }
           break;
         case 'я':
-          if (!prevRaw || !isCyrillicLetter(prevRaw) || prevRaw === "'" || prevRaw === '’' || prevRaw.toLowerCase() === 'ъ' || prevRaw.toLowerCase() === 'ь') {
+          if (!prevC) {
             result = 'ya';
-            rule = 'Ya at start or after separator → ya';
-          } else if (UA_CONSONANTS.has(prev)) {
-            result = "'a";
-            rule = 'Ya after consonant → apostrophe + a';
+            rule = 'Я word-initially → ya';
           } else {
-            result = 'ya';
-            rule = 'Ya in other cases → ya';
+            result = 'ia';
+            rule = 'Я elsewhere → ia';
           }
           break;
       }
     }
 
     trace.push({ source: ch, result, rule: formatForwardRuleLabel(rule) });
-    out.push(result);
+    if (result !== undefined && result !== null) {
+      out.push(result);
+    }
   }
   return { result: out.join(''), trace };
 }
@@ -825,41 +863,30 @@ function reverseRussianWord(chunk) {
     const prevConsonant = prev ? RU_CONSONANTS.has(prev) : false;
     let result = null;
     let rule = '';
+    let step = 0;
 
-    if (rest.startsWith("'e")) {
-      result = 'е'; rule = "Apostrophe + e → е"; i += 2;
-    } else if (rest.startsWith("'o")) {
-      result = 'ё'; rule = "Apostrophe + o → ё"; i += 2;
-    } else if (rest.startsWith("'u")) {
-      result = '’ю'; rule = "Apostrophe + u → ’ю"; i += 2;
-    } else if (rest.startsWith("'a")) {
-      result = '’я'; rule = "Apostrophe + a → ’я"; i += 2;
-    } else if (rest.startsWith("'")) {
-      result = 'ь'; rule = "Apostrophe → ь"; i += 1;
-    } else if (rest.startsWith('shch')) {
-      result = 'щ'; rule = 'Shch → щ'; i += 4;
+    if (rest.startsWith('shch')) {
+      result = 'щ'; rule = 'Shch → щ'; step = 4;
     } else if (rest.startsWith('sch')) {
-      result = 'щ'; rule = 'Sch → щ'; i += 3;
-    } else if (rest.startsWith('yi')) {
-      result = 'ый'; rule = 'Yi → ый'; i += 2;
+      result = 'щ'; rule = 'Sch → щ'; step = 3;
     } else if (rest.startsWith('yo')) {
-      result = prevConsonant ? 'ъё' : 'ё'; rule = prevConsonant ? 'Yo after consonant → ъё' : 'Yo → ё'; i += 2;
+      result = 'ё'; rule = 'Yo → ё'; step = 2;
     } else if (rest.startsWith('ye')) {
-      result = prevConsonant ? 'ъе' : 'е'; rule = prevConsonant ? 'Ye after consonant → ъе' : 'Ye → е'; i += 2;
+      result = prevConsonant ? 'ъе' : 'е'; rule = prevConsonant ? 'Ye after consonant → ъе' : 'Ye → е'; step = 2;
     } else if (rest.startsWith('yu')) {
-      result = prevConsonant ? 'ъю' : 'ю'; rule = prevConsonant ? 'Yu after consonant → ъю' : 'Yu → ю'; i += 2;
+      result = prevConsonant ? 'ъю' : 'ю'; rule = prevConsonant ? 'Yu after consonant → ъю' : 'Yu → ю'; step = 2;
     } else if (rest.startsWith('ya')) {
-      result = prevConsonant ? 'ъя' : 'я'; rule = prevConsonant ? 'Ya after consonant → ъя' : 'Ya → я'; i += 2;
+      result = prevConsonant ? 'ъя' : 'я'; rule = prevConsonant ? 'Ya after consonant → ъя' : 'Ya → я'; step = 2;
     } else if (rest.startsWith('zh')) {
-      result = 'ж'; rule = 'Zh → ж'; i += 2;
+      result = 'ж'; rule = 'Zh → ж'; step = 2;
     } else if (rest.startsWith('kh')) {
-      result = 'х'; rule = 'Kh → х'; i += 2;
+      result = 'х'; rule = 'Kh → х'; step = 2;
     } else if (rest.startsWith('ts')) {
-      result = 'ц'; rule = 'Ts → ц'; i += 2;
+      result = 'ц'; rule = 'Ts → ц'; step = 2;
     } else if (rest.startsWith('ch')) {
-      result = 'ч'; rule = 'Ch → ч'; i += 2;
+      result = 'ч'; rule = 'Ch → ч'; step = 2;
     } else if (rest.startsWith('sh')) {
-      result = 'ш'; rule = 'Sh → ш'; i += 2;
+      result = 'ш'; rule = 'Sh → ш'; step = 2;
     } else {
       const ch = lower[i];
       switch (ch) {
@@ -887,11 +914,12 @@ function reverseRussianWord(chunk) {
         case 'c': result = 'к'; rule = 'c → к'; break;
         default: result = chunk[i]; rule = 'Preserved';
       }
-      i += 1;
+      step = 1;
     }
 
     out += result;
-    trace.push({ source: chunk.slice(i - (result && result.length ? 1 : 0), i), result, rule });
+    trace.push({ source: chunk.slice(i, i + step), result, rule });
+    i += step;
   }
   return { result: out, trace };
 }
@@ -903,42 +931,38 @@ function reverseUkrainianWord(chunk) {
   const trace = [];
   while (i < lower.length) {
     const rest = lower.slice(i);
-    const prev = lastCyrillicLetter(out);
     let result = null;
     let rule = '';
+    let step = 0;
 
-    if (rest.startsWith("'e")) {
-      result = '’є'; rule = "Apostrophe + e → ’є"; i += 2;
-    } else if (rest.startsWith("'o")) {
-      result = '’о'; rule = "Apostrophe + o → ’о"; i += 2;
-    } else if (rest.startsWith("'u")) {
-      result = '’ю'; rule = "Apostrophe + u → ’ю"; i += 2;
-    } else if (rest.startsWith("'a")) {
-      result = '’я'; rule = "Apostrophe + a → ’я"; i += 2;
-    } else if (rest.startsWith("'")) {
-      result = 'ь'; rule = "Apostrophe → ь"; i += 1;
-    } else if (rest.startsWith('shch')) {
-      result = 'щ'; rule = 'Shch → щ'; i += 4;
+    if (rest.startsWith('shch')) {
+      result = 'щ'; rule = 'Shch → щ'; step = 4;
     } else if (rest.startsWith('gh')) {
-      result = 'г'; rule = 'Gh → г'; i += 2;
+      result = 'г'; rule = 'Gh → г'; step = 2;
     } else if (rest.startsWith('yi')) {
-      result = 'ї'; rule = 'Yi → ї'; i += 2;
+      result = 'ї'; rule = 'Yi → ї'; step = 2;
     } else if (rest.startsWith('ye')) {
-      result = 'є'; rule = 'Ye → є'; i += 2;
+      result = 'є'; rule = 'Ye → є'; step = 2;
     } else if (rest.startsWith('yu')) {
-      result = 'ю'; rule = 'Yu → ю'; i += 2;
+      result = 'ю'; rule = 'Yu → ю'; step = 2;
     } else if (rest.startsWith('ya')) {
-      result = 'я'; rule = 'Ya → я'; i += 2;
+      result = 'я'; rule = 'Ya → я'; step = 2;
+    } else if (rest.startsWith('ie')) {
+      result = 'є'; rule = 'Ie → є'; step = 2;
+    } else if (rest.startsWith('iu')) {
+      result = 'ю'; rule = 'Iu → ю'; step = 2;
+    } else if (rest.startsWith('ia')) {
+      result = 'я'; rule = 'Ia → я'; step = 2;
     } else if (rest.startsWith('zh')) {
-      result = 'ж'; rule = 'Zh → ж'; i += 2;
+      result = 'ж'; rule = 'Zh → ж'; step = 2;
     } else if (rest.startsWith('kh')) {
-      result = 'х'; rule = 'Kh → х'; i += 2;
+      result = 'х'; rule = 'Kh → х'; step = 2;
     } else if (rest.startsWith('ts')) {
-      result = 'ц'; rule = 'Ts → ц'; i += 2;
+      result = 'ц'; rule = 'Ts → ц'; step = 2;
     } else if (rest.startsWith('ch')) {
-      result = 'ч'; rule = 'Ch → ч'; i += 2;
+      result = 'ч'; rule = 'Ch → ч'; step = 2;
     } else if (rest.startsWith('sh')) {
-      result = 'ш'; rule = 'Sh → ш'; i += 2;
+      result = 'ш'; rule = 'Sh → ш'; step = 2;
     } else {
       const ch = lower[i];
       switch (ch) {
@@ -966,11 +990,12 @@ function reverseUkrainianWord(chunk) {
         case 'c': result = 'к'; rule = 'c → к'; break;
         default: result = chunk[i]; rule = 'Preserved';
       }
-      i += 1;
+      step = 1;
     }
 
     out += result;
-    trace.push({ source: chunk, result, rule });
+    trace.push({ source: chunk.slice(i, i + step), result, rule });
+    i += step;
   }
   return { result: out, trace };
 }

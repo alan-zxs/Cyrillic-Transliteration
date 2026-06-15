@@ -276,26 +276,40 @@
     };
     if (!text.trim()) return [];
     if (performanceMode) add('performance', 'Performance mode is active for this long input, so the detailed breakdown is simplified.');
+    
     if (direction === 'forward') {
-      if (window.isMixedScript && isMixedScript(text)) add('mixed', 'Mixed Cyrillic and Latin input detected. Romanization works best on one script at a time.');
-      const langDetect = activeLanguageFor('forward', text);
+      if (typeof isMixedScript === 'function' && isMixedScript(text)) {
+        add('mixed', 'Mixed Cyrillic and Latin input detected. Romanization works best on one script at a time.');
+      }
+      
+      const langDetect = typeof activeLanguageFor === 'function' ? activeLanguageFor('forward', text) : lang;
+      
+      // Анализ использованных правил для генерации контекстных подсказок
       for (const token of text.match(TOKEN_RE) || []) {
-        if (!(langDetect === 'ru' ? isCyrillicToken(token, 'ru') : isCyrillicToken(token, 'ua'))) continue;
-        const details = getRomanizedWord(token, langDetect);
-        for (const entry of details.trace || []) {
-          if (/after consonant/i.test(entry.rule) && /apostrophe|e|o|u|a/i.test(entry.rule)) {
-            add(`ctx-${entry.rule}`, 'Some letters use context-sensitive rules, especially e/yo/yu/ya after consonants.');
-          }
-          if (/soft sign/i.test(entry.rule) || /hard sign/i.test(entry.rule)) {
-            add('signs', 'Soft and hard signs can change the output in context.');
+        if (typeof isCyrillicToken === 'function' && !isCyrillicToken(token, langDetect)) continue;
+        
+        if (typeof getRomanizedWord === 'function') {
+          const details = getRomanizedWord(token, langDetect);
+          for (const entry of details.trace || []) {
+            if (/word-initially|elsewhere/i.test(entry.rule)) {
+              add('ua-positional', 'Ukrainian positional rules are active. Letters like Є, Ї, Й, Ю, Я behave differently at the beginning of a word vs. elsewhere.');
+            }
+            if (/ending/i.test(entry.rule)) {
+              add('ru-endings', 'Russian endings (-ий, -ый, -ые) are simplified according to Wikipedia naming conventions.');
+            }
+            if (/hard sign|soft sign/i.test(entry.rule)) {
+              add('signs', 'Hard (ъ) and soft (ь) signs are omitted or transcribed as "y" depending on the following letter.');
+            }
+            if (/after З/i.test(entry.rule)) {
+              add('ua-gh', 'In Ukrainian, "Г" is transliterated as "gh" when it directly follows "З" to avoid confusion with "zh".');
+            }
           }
         }
       }
     } else {
-      if (/[aeiouy]{2,}/i.test(text) || /(?:ye|yo|yu|ya|gh|shch|sch)/i.test(text)) {
-        add('ambiguous', 'Reverse transliteration is approximate for ambiguous Latin sequences.');
+      if (/[aeiouy]{2,}/i.test(text) || /(?:ye|yo|yu|ya|ia|iu|ie|yi|gh|shch|sch)/i.test(text)) {
+        add('ambiguous', 'Reverse transliteration is approximate for ambiguous Latin sequences (e.g., ya vs ia, or consecutive vowels).');
       }
-      if (/'/.test(text)) add('apostrophe', 'Apostrophes are treated as soft-sign markers in reverse transliteration.');
     }
     return [...warnings.values()];
   }
@@ -310,7 +324,7 @@
     }
     el.innerHTML = warnings.map(item => `
       <div class="warning-item">
-        <div class="warning-title">Warning</div>
+        <div class="warning-title">Notice</div>
         <div>${escapeHtml(item)}</div>
       </div>
     `).join('');
